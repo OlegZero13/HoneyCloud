@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  border-radius: 0 !important;
+}
+
+.hex-editor {
+    background: #fdfdfd;
+}
+
+.hex-ctrl {
+}
+
+.hex-ctrl-global {
+}
+
+
+ /* Customize the label (the custom-checkbox) */
+.custom-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 35px;
+  width: 36px;
+  background-color: #eee;
+  border-radius: 5px;
+  border: solid #ccc 1px;
+}
+
+
+/* On mouse-over, add a grey background color */
+.custom-checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #eee;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.custom-checkbox .checkmark:after {
+  left: 15px;
+  top: 8px;
+  width: 5px;
+  height: 14px;
+  border: solid #333;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+} 
+
+.form-control, .input-group-addon, .btn {
+    min-height: 0;
+    height: 35px !important;
+}
+
+.input-group-addon {
+    font-family: serif;
+}
+
+.btn-primary {
+    background: #ddd;
+    color: #333;
+    border: 1px solid #ccc;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background: darkgray;
+    border: 1px solid #777;
+}
+
+.rot {
+  -webkit-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.footer-about {
+    text-align: center;
+    color:  'black';
+}
+
+textarea {
+    font-family: monospace;
+    padding: 0 15px 0 15px;
+}

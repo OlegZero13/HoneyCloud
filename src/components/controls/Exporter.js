@@ -8,11 +8,13 @@ class Exporter extends React.Component {
         super(props);
         this.state = {
             control: this.props.control,
+            canvas:  this.props.canvas,
         };
 
         this.height = "1";
         this.width  = "1";
         this.onExport         = this.onExport.bind(this);
+        this.onSave           = this.onSave.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
         this.onGenerateCode   = this.onGenerateCode.bind(this);
         this.onCopyCode       = this.onCopyCode.bind(this);
@@ -63,6 +65,27 @@ class Exporter extends React.Component {
             a.dispatchEvent(evt);
         };
         img.src = url;
+    }
+
+    onSave(e) {
+        const canvas = this.state.canvas;
+        const json = JSON.stringify(canvas);
+
+        let filename;
+        if (this.state.filename === "" || this.state.filename == null) {
+            filename = "HoneyCloud.txt";
+        } else {
+            filename = this.state.filename + ".txt";
+        }
+        let evt = new MouseEvent('click', {
+            view: window,
+            bubbles: false,
+            cancelable: true,
+        });
+        let a = document.createElement('a');
+        a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
+        a.setAttribute('download', filename);
+        a.dispatchEvent(evt);
     }
 
     onGenerateCode(e){
@@ -141,6 +164,16 @@ class Exporter extends React.Component {
                             type="button"
                             onClick={this.onExport} >
                             Export
+                        </button>
+                      </div>
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="export-button"
+                            name="save"
+                            type="button"
+                            onClick={this.onSave} >
+                            Save
                         </button>
                       </div>
                     </div>

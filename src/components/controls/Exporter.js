@@ -15,6 +15,8 @@ class Exporter extends React.Component {
         this.width  = "1";
         this.onExport         = this.onExport.bind(this);
         this.onSave           = this.onSave.bind(this);
+        this.onLoad           = this.onLoad.bind(this);
+        this.onUpload         = this.onUpload.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
         this.onGenerateCode   = this.onGenerateCode.bind(this);
         this.onCopyCode       = this.onCopyCode.bind(this);
@@ -86,6 +88,27 @@ class Exporter extends React.Component {
         a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
         a.setAttribute('download', filename);
         a.dispatchEvent(evt);
+    }
+
+    onUpload(e) {
+        let input = e.target;
+        let reader = new FileReader();
+        reader.onload = function(){
+            let text = reader.result;
+            const aux = document.getElementById('loader');
+            aux.innerHTML = text;
+        };
+        reader.readAsText(input.files[0]);
+    }
+
+    onLoad(e) {
+        console.log("adasdad");
+        const aux = document.getElementById('loader');
+      //  const json = JSON.parse(aux.innerHTML);
+        let control = this.state.control;
+      //  console.log(json);
+
+        control.background = "#111111";
     }
 
     onGenerateCode(e){
@@ -169,11 +192,31 @@ class Exporter extends React.Component {
                       <div className="input-group">
                         <button
                             className="btn btn-primary btn-block"
-                            id="export-button"
+                            id="save-button"
                             name="save"
                             type="button"
                             onClick={this.onSave} >
                             Save
+                        </button>
+                      </div>
+                      <div className="input-group">
+                        <input
+                            className="btn btn-primary btn-block"
+                            id="upload-button"
+                            name="upload"
+                            accept="text/plain"
+                            type="file"
+                            onChange={this.onUpload} 
+                        />
+                      </div>
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="load-button"
+                            name="load"
+                            type="button"
+                            onClick={this.onLoad} >
+                            Load
                         </button>
                       </div>
                     </div>
@@ -246,6 +289,7 @@ class Exporter extends React.Component {
                         height={height} 
                         id="auxiliary-canvas">
                     </canvas>
+                    <p id="loader"></p>
                 </div>
               </div>
             </div>

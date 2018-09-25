@@ -55,6 +55,7 @@ class Editor extends React.Component {
             },
         };
         this.onLoad         = this.onLoad.bind(this);
+        this.onSave         = this.onSave.bind(this);
         this.onGlobalChange = this.onGlobalChange.bind(this);
         this.onCellChange   = this.onCellChange.bind(this);
         this.onCellCreate   = this.onCellCreate.bind(this);
@@ -71,6 +72,29 @@ class Editor extends React.Component {
 
     onLoad(e){
         console.log("onload");
+        const aux = document.getElementById("loader");
+        const json = JSON.parse(aux.innerHTML);
+        this.setState({canvas: json});
+    }
+
+    onSave(e){
+        const canvas = this.state.canvas;
+        const json = JSON.stringify(canvas);
+        let filename;
+        if (this.state.control.filename === "" || this.state.control.filename == null) {
+            filename = "HoneyCloud.txt";
+        } else {
+            filename = this.state.control.filename + ".txt";
+        }
+        let evt = new MouseEvent('click', {
+            view: window,
+            bubbles: false,
+            cancelable: true,
+        });
+        let a = document.createElement('a');
+        a.setAttribute('href', 'data:text/plain;charset=utf-8,'+ encodeURIComponent(json));
+        a.setAttribute('download', filename);
+        a.dispatchEvent(evt);
     }
 
     onGlobalChange(e){
@@ -477,6 +501,7 @@ class Editor extends React.Component {
                             canvas={this.state.canvas}
                             control={this.state.control}
                             onLoad={this.onLoad}
+                            onSave={this.onSave}
                             />
                       </div>
                       <div className="card-footer">

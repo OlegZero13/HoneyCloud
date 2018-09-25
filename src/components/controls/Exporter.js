@@ -14,7 +14,7 @@ class Exporter extends React.Component {
         this.height = "1";
         this.width  = "1";
         this.onExport         = this.onExport.bind(this);
-        this.onSave           = this.onSave.bind(this);
+        //this.onSave           = this.onSave.bind(this);
         //this.onLoad           = this.onLoad.bind(this);
         this.onUpload         = this.onUpload.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
@@ -22,6 +22,7 @@ class Exporter extends React.Component {
         this.onCopyCode       = this.onCopyCode.bind(this);
 
         this.onLoad = this.props.onLoad;
+        this.onSave = this.props.onSave;
     }
 
     onFilenameChange(e) {
@@ -70,10 +71,12 @@ class Exporter extends React.Component {
         };
         img.src = url;
     }
-
+/*
     onSave(e) {
+        console.log("onsave");
         const canvas = this.state.canvas;
         const json = JSON.stringify(canvas);
+        console.log(canvas);
 
         let filename;
         if (this.state.filename === "" || this.state.filename == null) {
@@ -91,7 +94,7 @@ class Exporter extends React.Component {
         a.setAttribute('download', filename);
         a.dispatchEvent(evt);
     }
-
+*/
     onUpload(e) {
         let input = e.target;
         let reader = new FileReader();

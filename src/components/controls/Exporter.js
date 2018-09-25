@@ -132,13 +132,13 @@ class Exporter extends React.Component {
 
     defineUnitSize(){
         let arm;
-        if (this.props.canvas.grid === 'XL') {
+        if (this.props.canvas.globals.grid === 'XL') {
             arm = 160;
-        } else if (this.props.canvas.grid === 'L') {
+        } else if (this.props.canvas.globals.grid === 'L') {
             arm = 120;
-        } else if (this.props.canvas.grid === 'M') {
+        } else if (this.props.canvas.globals.grid === 'M') {
             arm = 90;
-        } else if (this.props.canvas.grid === 'S') {
+        } else if (this.props.canvas.globals.grid === 'S') {
             arm = 60;
         } else {
             arm = 40;
@@ -148,8 +148,8 @@ class Exporter extends React.Component {
 
     defineCanvasSize(){
         const arm       = this.defineUnitSize();
-        const Nx        = parseInt(this.props.canvas.Nx, 10);
-        const Ny        = parseInt(this.props.canvas.Ny, 10);
+        const Nx        = parseInt(this.props.canvas.globals.Nx, 10);
+        const Ny        = parseInt(this.props.canvas.globals.Ny, 10);
         const pitchX    = 3*arm;
         const pitchY    = arm*Math.cos(Math.PI/6);
         const width     = Nx*pitchX
@@ -157,7 +157,7 @@ class Exporter extends React.Component {
                         + (Ny % 2)*0.5*arm
                         + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
                         + 0.20*arm*Math.cos(Math.PI/6);
-        const height    = this.props.canvas.Ny*pitchY + arm
+        const height    = this.props.canvas.globals.Ny*pitchY + arm
                         + 0.05*arm;
         return [width, height];
     }

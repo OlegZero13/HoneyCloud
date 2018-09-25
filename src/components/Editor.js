@@ -78,9 +78,8 @@ class Editor extends React.Component {
         const json = JSON.parse(aux.innerHTML);
         console.log(json);
         this.setState({
-//            control: json.control,
             canvas:  json.canvas,
-            control: this.state.control,
+//            control: json.control,
         });
     }
 
@@ -119,6 +118,7 @@ class Editor extends React.Component {
             canvas.globals.gridColor = e.target.value;
         }
         this.setState({canvas: canvas});
+        console.log(this.state.control);
     }
 
     onCellCreate(e) {
@@ -475,6 +475,7 @@ class Editor extends React.Component {
                       <div className="card-block">
                         <CellControl
                             control={this.state.control}
+                            canvas={this.state.canvas}
                             onCellChange={this.onCellChange}
                             onCellCreate={this.onCellCreate}
                             onCellRemove={this.onCellRemove}

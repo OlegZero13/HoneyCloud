@@ -8,6 +8,7 @@ class GlobalControl extends React.Component {
         super(props);
         this.state = {
             canvas: this.props.canvas,
+            control: this.props.control,
         };
         this.handleGlobalChange = this.props.onGlobalChange;
     }

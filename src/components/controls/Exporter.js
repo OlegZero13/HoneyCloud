@@ -15,11 +15,13 @@ class Exporter extends React.Component {
         this.width  = "1";
         this.onExport         = this.onExport.bind(this);
         this.onSave           = this.onSave.bind(this);
-        this.onLoad           = this.onLoad.bind(this);
+        //this.onLoad           = this.onLoad.bind(this);
         this.onUpload         = this.onUpload.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
         this.onGenerateCode   = this.onGenerateCode.bind(this);
         this.onCopyCode       = this.onCopyCode.bind(this);
+
+        this.onLoad = this.props.onLoad;
     }
 
     onFilenameChange(e) {
@@ -100,7 +102,7 @@ class Exporter extends React.Component {
         };
         reader.readAsText(input.files[0]);
     }
-
+/*
     onLoad(e) {
         console.log("adasdad");
         const aux = document.getElementById('loader');
@@ -110,7 +112,7 @@ class Exporter extends React.Component {
 
         control.background = "#111111";
     }
-
+*/
     onGenerateCode(e){
         const svg = document.getElementById("canvas");
         const code = svg.innerHTML;

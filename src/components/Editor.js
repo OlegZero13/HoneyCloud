@@ -54,6 +54,7 @@ class Editor extends React.Component {
                 },
             },
         };
+        this.onLoad         = this.onLoad.bind(this);
         this.onGlobalChange = this.onGlobalChange.bind(this);
         this.onCellChange   = this.onCellChange.bind(this);
         this.onCellCreate   = this.onCellCreate.bind(this);
@@ -66,6 +67,10 @@ class Editor extends React.Component {
         this.onWallClear    = this.onWallClear.bind(this);
         this.onWallChange   = this.onWallChange.bind(this);
         this.onWallSelect   = this.onWallSelect.bind(this);
+    }
+
+    onLoad(e){
+        console.log("onload");
     }
 
     onGlobalChange(e){
@@ -471,6 +476,7 @@ class Editor extends React.Component {
                         <Exporter 
                             canvas={this.state.canvas}
                             control={this.state.control}
+                            onLoad={this.onLoad}
                             />
                       </div>
                       <div className="card-footer">

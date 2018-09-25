@@ -32,11 +32,20 @@ class Editor extends React.Component {
                 walls:      [],
             },
             control: {
-                nx:         "0",
-                ny:         "0",
-                background: "#777777",
-                code:       "",
-                filename:   "Honey-Cloud",
+                globals: {
+                    Nx:         "24",
+                    Ny:         "32",
+                    grid:       "S",
+                    showGrid:   true,
+                    background: "#FFFFFF",
+                    gridColor:  "#EEEEEE",
+
+                    nx:         "0",
+                    ny:         "0",
+                    CellBackground: "#777777",
+                    code:       "",
+                    filename:   "Honey-Cloud",
+                },
                 hex: {
                     background: "#DDDDDD",
                     stroke:     "#000000",
@@ -86,10 +95,10 @@ class Editor extends React.Component {
     onSave(e){
         const json = JSON.stringify(this.state);
         let filename;
-        if (this.state.control.filename === "" || this.state.control.filename == null) {
+        if (this.state.control.globals.filename === "" || this.state.control.globals.filename == null) {
             filename = "HoneyCloud.txt";
         } else {
-            filename = this.state.control.filename + ".txt";
+            filename = this.state.control.globals.filename + ".txt";
         }
         let evt = new MouseEvent('click', {
             view: window,
@@ -104,20 +113,30 @@ class Editor extends React.Component {
 
     onGlobalChange(e){
         let canvas = this.state.canvas;
+        let control = this.state.control;
         if (e.target.name === 'Nx') {
             canvas.globals.Nx = e.target.value;
+            control.globals.Nx = e.target.value;
         } else if (e.target.name === 'Ny') {
             canvas.globals.Ny = e.target.value;
+            control.globals.Ny = e.target.value;
         } else if (e.target.name === 'grid') {
             canvas.globals.grid = e.target.value;
+            control.globals.grid = e.target.value;
         } else if (e.target.name === 'showGrid') {
             canvas.globals.showGrid = e.target.checked;
+            control.globals.showGrid = e.target.checked;
         } else if (e.target.name === 'background') {
             canvas.globals.background = e.target.value;
+            control.globals.background = e.target.value;
         } else if (e.target.name === 'gridColor') {
             canvas.globals.gridColor = e.target.value;
+            control.globals.gridColor = e.target.value;
         }
-        this.setState({canvas: canvas});
+        this.setState({
+            canvas: canvas,
+            control: control,
+        });
         console.log(this.state.control);
     }
 
@@ -126,8 +145,8 @@ class Editor extends React.Component {
         let canvas = this.state.canvas;
         let index;
         for (let c in canvas.cells) {
-            if ((canvas.cells[c].pos[0] === control.nx)
-             && (canvas.cells[c].pos[1] === control.ny)) {
+            if ((canvas.cells[c].pos[0] === control.globals.nx)
+             && (canvas.cells[c].pos[1] === control.globals.ny)) {
                 index = c;
                 break;
             }
@@ -136,11 +155,11 @@ class Editor extends React.Component {
             return;
         } else {
             const cell = {
-                pos:        [control.nx, control.ny],
-                background: control.background,
+                pos:        [control.globals.nx, control.globals.ny],
+                background: control.globals.CellBackground,
             };
             const hex = {
-                pos:        [control.nx, control.ny],
+                pos:        [control.globals.nx, control.globals.ny],
                 background: control.hex.background,
                 stroke:     control.hex.stroke,
                 color:      control.hex.color,
@@ -159,8 +178,8 @@ class Editor extends React.Component {
         let control = this.state.control;
         let index = null;
         for (let c in canvas.conns) {
-            if ((canvas.conns[c].pos[0] === control.nx)
-             && (canvas.conns[c].pos[1] === control.ny)
+            if ((canvas.conns[c].pos[0] === control.globals.nx)
+             && (canvas.conns[c].pos[1] === control.globals.ny)
              && (canvas.conns[c].direction === control.conn.direction)) {
                 index = c;
                 break;
@@ -170,7 +189,7 @@ class Editor extends React.Component {
             return;
         } else {
             const conn = {
-                pos:        [control.nx, control.ny],
+                pos:        [control.globals.nx, control.globals.ny],
                 direction:  control.conn.direction,
                 color:      control.conn.color,
                 arrow:      control.conn.arrow,
@@ -190,8 +209,8 @@ class Editor extends React.Component {
         let control = this.state.control;
         let index = null;
         for (let w in canvas.walls) {
-            if ((canvas.walls[w].pos[0] === control.nx)
-             && (canvas.walls[w].pos[1] === control.ny)
+            if ((canvas.walls[w].pos[0] === control.globals.nx)
+             && (canvas.walls[w].pos[1] === control.globals.ny)
              && (canvas.walls[w].side === control.wall.side)) {
                 index = w;
                 break;
@@ -201,7 +220,7 @@ class Editor extends React.Component {
             return;
         } else {
             const wall = {
-                pos:        [control.nx, control.ny],
+                pos:        [control.globals.nx, control.globals.ny],
                 side:       control.wall.side,
                 color:      control.wall.color,
             };
@@ -220,8 +239,8 @@ class Editor extends React.Component {
         let canvas = this.state.canvas;
         let index;
         for (let c in canvas.cells) {
-            if ((canvas.cells[c].pos[0] === control.nx)
-             && (canvas.cells[c].pos[1] === control.ny)) {
+            if ((canvas.cells[c].pos[0] === control.globals.nx)
+             && (canvas.cells[c].pos[1] === control.globals.ny)) {
                 index = c;
                 break;
             }
@@ -240,8 +259,8 @@ class Editor extends React.Component {
         let canvas = this.state.canvas;
         let index = null;
         for (let c in canvas.conns) {
-            if ((canvas.conns[c].pos[0] === control.nx)
-             && (canvas.conns[c].pos[1] === control.ny)
+            if ((canvas.conns[c].pos[0] === control.globals.nx)
+             && (canvas.conns[c].pos[1] === control.globals.ny)
              && (canvas.conns[c].direction === control.conn.direction)) {
                  index = c;
                  break;
@@ -265,8 +284,8 @@ class Editor extends React.Component {
         let canvas = this.state.canvas;
         let index = null;
         for (let w in canvas.walls) {
-            if ((canvas.walls[w].pos[0] === control.nx)
-             && (canvas.walls[w].pos[1] === control.ny)
+            if ((canvas.walls[w].pos[0] === control.globals.nx)
+             && (canvas.walls[w].pos[1] === control.globals.ny)
              && (canvas.walls[w].side === control.wall.side)) {
                 index = w;
                 break;
@@ -290,8 +309,8 @@ class Editor extends React.Component {
         let control = this.state.control;
         let index   = null;
         for (let c in canvas.cells) {
-            if ((canvas.cells[c].pos[0] === control.nx) 
-             && (canvas.cells[c].pos[1] === control.ny)) {
+            if ((canvas.cells[c].pos[0] === control.globals.nx) 
+             && (canvas.cells[c].pos[1] === control.globals.ny)) {
                 index = c;
             }
         }
@@ -300,7 +319,7 @@ class Editor extends React.Component {
         } else {
             if (e.target.name === "cell-background") {
                 canvas.cells[index].background = e.target.value;
-                control.background = e.target.value;
+                control.globals.CellBackground = e.target.value;
             } else if (e.target.name === "hex-background") {
                 canvas.hexs[index].background = e.target.value;
                 control.hex.background = e.target.value;
@@ -332,8 +351,8 @@ class Editor extends React.Component {
         let control = this.state.control;
         let index = null;
         for (let c in canvas.conns) {
-            if ((canvas.conns[c].pos[0] === control.nx)
-             && (canvas.conns[c].pos[1] === control.ny)
+            if ((canvas.conns[c].pos[0] === control.globals.nx)
+             && (canvas.conns[c].pos[1] === control.globals.ny)
              && (canvas.conns[c].direction === control.conn.direction)) {
                  index = c;
                  break;
@@ -369,8 +388,8 @@ class Editor extends React.Component {
         let control = this.state.control;
         let index = null;
         for (let w in canvas.walls) {
-            if ((canvas.walls[w].pos[0] === control.nx)
-             && (canvas.walls[w].pos[1] === control.ny)
+            if ((canvas.walls[w].pos[0] === control.globals.nx)
+             && (canvas.walls[w].pos[1] === control.globals.ny)
              && (canvas.walls[w].side === control.wall.side)) {
                 index = w;
                 break;
@@ -409,7 +428,7 @@ class Editor extends React.Component {
             }
         }
         if (index != null) {
-            control.background      = canvas.cells[index].background;
+            control.globals.CellBackground      = canvas.cells[index].background;
             control.hex.background  = canvas.hexs[index].background;
             control.hex.stroke      = canvas.hexs[index].stroke;
             control.hex.color       = canvas.hexs[index].color;
@@ -417,8 +436,8 @@ class Editor extends React.Component {
             control.hex.icon        = canvas.hexs[index].icon;
             control.hex.link        = canvas.hexs[index].link;
         }
-        control.nx = nx;
-        control.ny = ny;
+        control.globals.nx = nx;
+        control.globals.ny = ny;
         this.setState({control: control});
     }
 
@@ -442,8 +461,8 @@ class Editor extends React.Component {
             control.wall.side       = canvas.walls[index].side;
             control.wall.color      = canvas.walls[index].color;
         }
-        control.nx = nx;
-        control.ny = ny;
+        control.globals.nx = nx;
+        control.globals.ny = ny;
         this.setState({control: control});
     }
 
@@ -469,6 +488,7 @@ class Editor extends React.Component {
                           <br />
                         <GlobalControl 
                             canvas={this.state.canvas}
+                            control={this.state.control}
                             onGlobalChange={this.onGlobalChange}
                             />
                       </div>

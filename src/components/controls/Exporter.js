@@ -28,7 +28,7 @@ class Exporter extends React.Component {
     onFilenameChange(e) {
         let filename = e.target.value;
         let control = this.state.control;
-        control.filename = filename;
+        control.globals.filename = filename;
         this.setState({filename: filename});
     }
 
@@ -120,7 +120,7 @@ class Exporter extends React.Component {
         const svg = document.getElementById("canvas");
         const code = svg.innerHTML;
         let control = this.state.control;
-        control.code = code;
+        control.globals.code = code;
         this.setState({control: control});
     }
 
@@ -237,7 +237,7 @@ class Exporter extends React.Component {
                             className="form-control"
                             name="filename"
                             type="text"
-                            value={this.state.control.filename}
+                            value={this.state.control.globals.filename}
                             onChange={this.onFilenameChange}
                             />
                         <div className="input-group-addon">.png</div>
@@ -281,7 +281,7 @@ class Exporter extends React.Component {
                             style={tstyle}
                             id="code-text"
                             name="svg-output"
-                            value={this.state.control.code}
+                            value={this.state.control.globals.code}
                             readOnly
                         />
                       </div>

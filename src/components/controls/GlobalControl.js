@@ -31,7 +31,7 @@ class GlobalControl extends React.Component {
                             className="form-control"
                             name="Nx"
                             type="number"
-                            value={this.state.canvas.globals.Nx}
+                            value={this.state.control.globals.Nx}
                             onChange={this.handleGlobalChange} />
                       </div>
                     </div>
@@ -42,7 +42,7 @@ class GlobalControl extends React.Component {
                             className="form-control"
                             name="Ny"
                             type="number"
-                            value={this.state.canvas.globals.Ny}
+                            value={this.state.control.globals.Ny}
                             onChange={this.handleGlobalChange} />
                       </div>
                     </div>
@@ -55,7 +55,7 @@ class GlobalControl extends React.Component {
                         <select
                             className="custom-select form-control"
                             name="grid"
-                            value={this.state.canvas.globals.grid}
+                            value={this.state.control.globals.grid}
                             onChange={this.handleGlobalChange} >
                             <option value="XS">extra small</option>
                             <option value="S">small</option>
@@ -77,7 +77,7 @@ class GlobalControl extends React.Component {
                         <input
                             name="showGrid"
                             type="checkbox"
-                            checked={this.state.canvas.globals.showGrid}
+                            checked={this.state.control.globals.showGrid}
                             onChange={this.handleGlobalChange} />
                         <span className="checkmark"></span>
                       </label>
@@ -93,7 +93,7 @@ class GlobalControl extends React.Component {
                             className="form-control"
                             name="gridColor"
                             type="color"
-                            value={this.state.canvas.globals.gridColor}
+                            value={this.state.control.globals.gridColor}
                             onChange={this.handleGlobalChange} />
                       </div>
                     </div>
@@ -104,7 +104,7 @@ class GlobalControl extends React.Component {
                             className="form-control"
                             name="background"
                             type="color"
-                            value={this.state.canvas.globals.background}
+                            value={this.state.control.globals.background}
                             onChange={this.handleGlobalChange} />
                       </div>
                     </div>

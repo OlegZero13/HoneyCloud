@@ -10,6 +10,8 @@ import Exporter from './controls/Exporter';
 import FooterAbout from './controls/FooterAbout';
 import Canvas from './Canvas';
 
+import assertAPI from './assertions.js';
+
 import logo from '../HoneyCloud.png';
 
 
@@ -82,14 +84,16 @@ class Editor extends React.Component {
     }
 
     onLoad(e){
-        console.log("onload");
         const aux = document.getElementById("loader");
-        const json = JSON.parse(aux.innerHTML);
-        console.log(json);
-        this.setState({
-            canvas:  json.canvas,
-//            control: json.control,
-        });
+            const json = JSON.parse(aux.innerHTML);
+            assertAPI(json);
+        try {
+            this.setState({
+                canvas:  json.canvas,
+            });
+        } catch(err) {
+            alert(err);
+        }
     }
 
     onSave(e){

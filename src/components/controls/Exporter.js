@@ -14,8 +14,6 @@ class Exporter extends React.Component {
         this.height = "1";
         this.width  = "1";
         this.onExport         = this.onExport.bind(this);
-        //this.onSave           = this.onSave.bind(this);
-        //this.onLoad           = this.onLoad.bind(this);
         this.onUpload         = this.onUpload.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
         this.onGenerateCode   = this.onGenerateCode.bind(this);
@@ -71,30 +69,7 @@ class Exporter extends React.Component {
         };
         img.src = url;
     }
-/*
-    onSave(e) {
-        console.log("onsave");
-        const canvas = this.state.canvas;
-        const json = JSON.stringify(canvas);
-        console.log(canvas);
 
-        let filename;
-        if (this.state.filename === "" || this.state.filename == null) {
-            filename = "HoneyCloud.txt";
-        } else {
-            filename = this.state.filename + ".txt";
-        }
-        let evt = new MouseEvent('click', {
-            view: window,
-            bubbles: false,
-            cancelable: true,
-        });
-        let a = document.createElement('a');
-        a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
-        a.setAttribute('download', filename);
-        a.dispatchEvent(evt);
-    }
-*/
     onUpload(e) {
         let input = e.target;
         let reader = new FileReader();
@@ -105,17 +80,7 @@ class Exporter extends React.Component {
         };
         reader.readAsText(input.files[0]);
     }
-/*
-    onLoad(e) {
-        console.log("adasdad");
-        const aux = document.getElementById('loader');
-      //  const json = JSON.parse(aux.innerHTML);
-        let control = this.state.control;
-      //  console.log(json);
 
-        control.background = "#111111";
-    }
-*/
     onGenerateCode(e){
         const svg = document.getElementById("canvas");
         const code = svg.innerHTML;

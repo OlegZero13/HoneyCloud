@@ -18,12 +18,14 @@ class Editor extends React.Component {
         super(props);
         this.state = {
             canvas: {
-                Nx:         "24",
-                Ny:         "32",
-                grid:       "S",
-                showGrid:   true,
-                background: "#FFFFFF",
-                gridColor:  "#EEEEEE",
+                globals: {
+                    Nx:         "24",
+                    Ny:         "32",
+                    grid:       "S",
+                    showGrid:   true,
+                    background: "#FFFFFF",
+                    gridColor:  "#EEEEEE",
+                },
                 cells:      [],
                 hexs:       [],
                 conns:      [],
@@ -74,12 +76,16 @@ class Editor extends React.Component {
         console.log("onload");
         const aux = document.getElementById("loader");
         const json = JSON.parse(aux.innerHTML);
-        this.setState({canvas: json});
+        console.log(json);
+        this.setState({
+//            control: json.control,
+            canvas:  json.canvas,
+            control: this.state.control,
+        });
     }
 
     onSave(e){
-        const canvas = this.state.canvas;
-        const json = JSON.stringify(canvas);
+        const json = JSON.stringify(this.state);
         let filename;
         if (this.state.control.filename === "" || this.state.control.filename == null) {
             filename = "HoneyCloud.txt";
@@ -100,17 +106,17 @@ class Editor extends React.Component {
     onGlobalChange(e){
         let canvas = this.state.canvas;
         if (e.target.name === 'Nx') {
-            canvas.Nx = e.target.value;
+            canvas.globals.Nx = e.target.value;
         } else if (e.target.name === 'Ny') {
-            canvas.Ny = e.target.value;
+            canvas.globals.Ny = e.target.value;
         } else if (e.target.name === 'grid') {
-            canvas.grid = e.target.value;
+            canvas.globals.grid = e.target.value;
         } else if (e.target.name === 'showGrid') {
-            canvas.showGrid = e.target.checked;
+            canvas.globals.showGrid = e.target.checked;
         } else if (e.target.name === 'background') {
-            canvas.background = e.target.value;
+            canvas.globals.background = e.target.value;
         } else if (e.target.name === 'gridColor') {
-            canvas.gridColor = e.target.value;
+            canvas.globals.gridColor = e.target.value;
         }
         this.setState({canvas: canvas});
     }

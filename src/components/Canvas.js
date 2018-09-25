@@ -18,13 +18,13 @@ class Canvas extends React.Component {
 
     defineUnitSize(){
         let arm;
-        if (this.props.canvas.grid === 'XL') {
+        if (this.props.canvas.globals.grid === 'XL') {
             arm = 160;
-        } else if (this.props.canvas.grid === 'L') {
+        } else if (this.props.canvas.globals.grid === 'L') {
             arm = 120;
-        } else if (this.props.canvas.grid === 'M') {
+        } else if (this.props.canvas.globals.grid === 'M') {
             arm = 90;
-        } else if (this.props.canvas.grid === 'S') {
+        } else if (this.props.canvas.globals.grid === 'S') {
             arm = 60;
         } else {
             arm = 40;
@@ -34,8 +34,8 @@ class Canvas extends React.Component {
     
     defineCanvasSize(){
         const arm       = this.defineUnitSize();
-        const Nx        = parseInt(this.props.canvas.Nx, 10);
-        const Ny        = parseInt(this.props.canvas.Ny, 10);
+        const Nx        = parseInt(this.props.canvas.globals.Nx, 10);
+        const Ny        = parseInt(this.props.canvas.globals.Ny, 10);
         const pitchX    = 3*arm;
         const pitchY    = arm*Math.cos(Math.PI/6);
         const width     = Nx*pitchX 
@@ -43,7 +43,7 @@ class Canvas extends React.Component {
                         + (Ny % 2)*0.5*arm
                         + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
                         + 0.20*arm*Math.cos(Math.PI/6);
-        const height    = this.props.canvas.Ny*pitchY + arm
+        const height    = this.props.canvas.globals.Ny*pitchY + arm
                         + 0.05*arm;
         return [width, height];
     }
@@ -51,15 +51,15 @@ class Canvas extends React.Component {
     defineGrid(){
         const arm = this.defineUnitSize();
         let emptycells = [];
-        for (let nx = 0; nx < parseInt(this.props.canvas.Nx, 10); nx++) {
-            for (let ny = 0; ny < parseInt(this.props.canvas.Ny, 10); ny++) {
+        for (let nx = 0; nx < parseInt(this.props.canvas.globals.Nx, 10); nx++) {
+            for (let ny = 0; ny < parseInt(this.props.canvas.globals.Ny, 10); ny++) {
                 let cell = {
                     nx:         nx.toString(),
                     ny:         ny.toString(),
                     arm:        arm,
-                    showGrid:   this.props.canvas.showGrid,
-                    gridColor:  this.props.canvas.gridColor,
-                    background: this.props.canvas.background,
+                    showGrid:   this.props.canvas.globals.showGrid,
+                    gridColor:  this.props.canvas.globals.gridColor,
+                    background: this.props.canvas.globals.background,
                 };
                 let key = nx.toString() + "-" + ny.toString();
                 emptycells.push(<EmptyCell 
@@ -182,7 +182,7 @@ class Canvas extends React.Component {
 
     render() {
         const style = {
-            fill:   this.props.canvas.background,
+            fill:   this.props.canvas.globals.background,
         };
         const canvasSize = this.defineCanvasSize();
         const width  = canvasSize[0];

@@ -139,58 +139,19 @@ class Exporter extends React.Component {
         const cstyle = {
             minHeight: 95,
         };
+        const ustyle = {
+            display: "none",
+        };
         return (
             <div className="hex-ctrl hex-ctrl-export">
               <div className="card-title">
                 <h5>Generate Output</h5>
-                <h6>Save as an image or use the SVG code.</h6>
+                <h6>Specify the file name.</h6>
               </div>
               <div className="card-text">
                 <form>
                   <div className="form-group row">
-                    <div className="col-3">
-                      <div className="input-group">
-                        <button
-                            className="btn btn-primary btn-block"
-                            id="export-button"
-                            name="export"
-                            type="button"
-                            onClick={this.onExport} >
-                            Export
-                        </button>
-                      </div>
-                      <div className="input-group">
-                        <button
-                            className="btn btn-primary btn-block"
-                            id="save-button"
-                            name="save"
-                            type="button"
-                            onClick={this.onSave} >
-                            Save
-                        </button>
-                      </div>
-                      <div className="input-group">
-                        <input
-                            className="btn btn-primary btn-block"
-                            id="upload-button"
-                            name="upload"
-                            accept="text/plain"
-                            type="file"
-                            onChange={this.onUpload} 
-                        />
-                      </div>
-                      <div className="input-group">
-                        <button
-                            className="btn btn-primary btn-block"
-                            id="load-button"
-                            name="load"
-                            type="button"
-                            onClick={this.onLoad} >
-                            Load
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-9">
+                    <div className="col-12">
                       <div className="input-group">
                         <div className="input-group-addon">
                           <FontAwesome
@@ -205,13 +166,75 @@ class Exporter extends React.Component {
                             value={this.state.control.globals.filename}
                             onChange={this.onFilenameChange}
                             />
-                        <div className="input-group-addon">.png</div>
+                        <div className="input-group-addon">.png | .txt</div>
                       </div>
                     </div>
                   </div>
-                
+
+                  <h6>Save as text or export as an image.</h6>
                   <div className="form-group row">
-                    <div className="col-3">
+                    <div className="col-6">
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="save-button"
+                            name="save"
+                            type="button"
+                            onClick={this.onSave} >
+                            Save
+                        </button>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="export-button"
+                            name="export"
+                            type="button"
+                            onClick={this.onExport} >
+                            Export
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                <h6>Load from text and apply to continue.</h6>
+                  <div className="form-group row">
+                    <div className="col-6">
+                      <div className="input-group">
+                        <label 
+                            className="btn btn-primary btn-block"
+                            htmlFor="upload-button"
+                        >
+                        <input
+                            id="upload-button"
+                            name="upload"
+                            accept="text/plain"
+                            type="file"
+                            style={ustyle}
+                            onChange={this.onUpload} 
+                        />
+                        Load
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="load-button"
+                            name="load"
+                            type="button"
+                            onClick={this.onLoad} >
+                            Apply
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h6>Generate SVG code and copy to clipboard.</h6>
+                  <div className="form-group row">
+                    <div className="col-4">
                       <div className="input-group">
                         <button
                             className="btn btn-primary btn-block"
@@ -234,7 +257,7 @@ class Exporter extends React.Component {
                         </button>
                       </div>
                     </div>
-                    <div className="col-9">
+                    <div className="col-8">
                       <div className="input-group">
                         <div className="input-group-addon" style={cstyle}>
                           <FontAwesome

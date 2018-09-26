@@ -84,8 +84,9 @@ function assertElement(elements, parameters) {
                     const err = prefix + "The <pos> cannot be converted to numbers!";
                     throw err;
                 }
-            } catch(err) {
-                throw prefix + "The <pos> cannot be converted to numbers!";
+            } catch(e) {
+                const err = prefix + "The <pos> cannot be converted to numbers!";
+                throw err;
             }
         }
     }

@@ -85,14 +85,20 @@ class Editor extends React.Component {
 
     onLoad(e){
         const aux = document.getElementById("loader");
-            const json = JSON.parse(aux.innerHTML);
-            assertAPI(json);
+        let json;
         try {
+            json = JSON.parse(aux.innerHTML);
+        } catch(err) {
+            alert("The file is either empty or follows inappropriate format.");
+            return;
+        }
+        try {
+            assertAPI(json);
             this.setState({
                 canvas:  json.canvas,
             });
         } catch(err) {
-            alert(err);
+            alert("The file follows inappropriate format.");
         }
     }
 

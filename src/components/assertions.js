@@ -17,10 +17,10 @@ function assertAPI(json) {
     const walls  = json.canvas.walls;
     const wallsp = ['pos', 'side', 'color'];
     assertGlobals(json.canvas.globals);
-    assertElement(cells, cellsp);
-    assertElement(hexs,  hexsp);
-    assertElement(conns, connsp);
-    assertElement(walls, wallsp);
+    assertElement(cells, cellsp, "cells");
+    assertElement(hexs,  hexsp,  "hexs");
+    assertElement(conns, connsp, "conns");
+    assertElement(walls, wallsp, "walls");
 }
 
 function assertGlobals(globals) {
@@ -54,8 +54,8 @@ function assertGlobals(globals) {
     }
 }
 
-function assertElement(elements, parameters) {
-    const prefix = "[API error -> " + elements + "]: ";
+function assertElement(elements, parameters, name) {
+    const prefix = "[API error -> " + name + "]: ";
     if (!(Array.isArray(elements))) {
         const err = prefix + "Not an array!";
         throw err;

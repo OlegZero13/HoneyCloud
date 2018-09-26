@@ -77,8 +77,13 @@ class Exporter extends React.Component {
             let text = reader.result;
             const aux = document.getElementById('loader');
             aux.innerHTML = text;
+
         };
         reader.readAsText(input.files[0]);
+            //const filename = input.files[0].name.split('.')[0];
+            //let control = this.state.control;
+            //control.filename = filename;
+            //this.setState({control: control});
     }
 
     onGenerateCode(e){
@@ -198,7 +203,7 @@ class Exporter extends React.Component {
                       </div>
                     </div>
                   </div>
-                <h6>Load from text and apply to continue.</h6>
+                  <h6>Load from text and apply to continue.</h6>
                   <div className="form-group row">
                     <div className="col-6">
                       <div className="input-group">

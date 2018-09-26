@@ -1,5 +1,5 @@
 function assertAPI(json) {
-    let prefix = "[API error]: "
+    let prefix = "[api error]: "
     if (!('canvas' in json)) {
         const err = prefix + "Canvas undefined!";
         throw err;
@@ -8,9 +8,23 @@ function assertAPI(json) {
         const err = prefix + "Global canvas parameters undefined!";
         throw err;
     }
+    const cells  = json.canvas.cells;
+    const cellsp = ['pos', 'background'];
+    const hexs   = json.canvas.hexs;
+    const hexsp  = ['pos', 'background', 'stroke', 'color', 'title', 'icon', 'link'];
+    const conns  = json.canvas.conns;
+    const connsp = ['pos', 'direction', 'color', 'arrow'];
+    const walls  = json.canvas.walls;
+    const wallsp = ['pos', 'side', 'color'];
+    assertGlobals(json.canvas.globals);
+    assertElement(cells, cellsp);
+    assertElement(hexs,  hexsp);
+    assertElement(conns, connsp);
+    assertElement(walls, wallsp);
+}
 
-    const globals = json.canvas.globals;
-    prefix = "[API error -> globals]: ";
+function assertGlobals(globals) {
+    const prefix = "[API error -> globals]: ";
     if (!('Nx' in globals)) {
         const err = prefix + "Nx undefined!";
         throw err;
@@ -32,12 +46,50 @@ function assertAPI(json) {
         }
     }
     const params = ['grid', 'showGrid', 'background', 'gridColor'];
-    for (let param in params) {
-        if (!(param in globals)) {
-            const err = prefix + "The <" + param + "> is undefined!";
+    for (let p in params) {
+        if (!(params[p] in globals)) {
+            const err = prefix + "The <" + params[p] + "> is undefined!";
             throw err;
         }
     }
 }
 
+function assertElement(elements, parameters) {
+    const prefix = "[API error -> " + elements + "]: ";
+    if (!(Array.isArray(elements))) {
+        const err = prefix + "Not an array!";
+        throw err;
+    }
+    for (let el in elements) {
+    const params = parameters;
+        for (let p in params) {
+            if (!(params[p] in elements[el])) {
+                const err = prefix + "The <" +  params[p] + "> is undefined!";
+                throw err;
+            }
+        }
+    }
+    for (let el in elements) {
+        if (!(Array.isArray(elements))) {
+            const err = prefix + "The <pos> parameter is not an array!";
+            throw err;
+        } else if (elements[el].pos.length !== 2) {
+            const err = prefix + "The <pos> parameter does not have 2 values!";
+            throw err;
+        } else {
+            try {
+                const x = parseInt(elements[el].pos[0], 10);
+                const y = parseInt(elements[el].pos[1], 10);
+                if (isNaN(x) || isNaN(y)) {
+                    const err = prefix + "The <pos> cannot be converted to numbers!";
+                    throw err;
+                }
+            } catch(err) {
+                throw prefix + "The <pos> cannot be converted to numbers!";
+            }
+        }
+    }
+}
+
 export default assertAPI;
+

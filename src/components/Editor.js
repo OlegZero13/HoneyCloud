@@ -6,7 +6,7 @@ import CellControl from './controls/CellControl';
 import HexControl from './controls/HexControl';
 import ConnectorControl from './controls/ConnectorControl';
 import WallControl from './controls/WallControl';
-import Exporter from './controls/Exporter';
+import IOInterface from './controls/IOInterface';
 import FooterAbout from './controls/FooterAbout';
 import Canvas from './Canvas';
 
@@ -534,7 +534,7 @@ class Editor extends React.Component {
                             />
                       </div>
                       <div className="card-block">
-                        <Exporter 
+                        <IOInterface 
                             canvas={this.state.canvas}
                             control={this.state.control}
                             onLoad={this.onLoad}

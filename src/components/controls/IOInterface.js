@@ -3,7 +3,7 @@ import React from 'react';
 
 var FontAwesome = require('react-fontawesome');
 
-class Exporter extends React.Component {
+class IOInterface extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -316,5 +316,5 @@ class Exporter extends React.Component {
     }
 }
 
-export default Exporter;
+export default IOInterface;
 

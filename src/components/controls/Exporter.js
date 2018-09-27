@@ -77,13 +77,10 @@ class Exporter extends React.Component {
             let text = reader.result;
             const aux = document.getElementById('loader');
             aux.innerHTML = text;
-
+            const fln = document.getElementById('input-filename');
+            fln.value = input.files[0].name.split('.')[0];
         };
         reader.readAsText(input.files[0]);
-            //const filename = input.files[0].name.split('.')[0];
-            //let control = this.state.control;
-            //control.filename = filename;
-            //this.setState({control: control});
     }
 
     onGenerateCode(e){
@@ -203,40 +200,6 @@ class Exporter extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <h6>Load from text and apply to continue.</h6>
-                  <div className="form-group row">
-                    <div className="col-6">
-                      <div className="input-group">
-                        <label 
-                            className="btn btn-primary btn-block"
-                            htmlFor="upload-button"
-                        >
-                        <input
-                            id="upload-button"
-                            name="upload"
-                            accept="text/plain"
-                            type="file"
-                            style={ustyle}
-                            onChange={this.onUpload} 
-                        />
-                        Load
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="input-group">
-                        <button
-                            className="btn btn-primary btn-block"
-                            id="load-button"
-                            name="load"
-                            type="button"
-                            onClick={this.onLoad} >
-                            Apply
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
                   <h6>Generate SVG code and copy to clipboard.</h6>
                   <div className="form-group row">
                     <div className="col-4">
@@ -280,6 +243,63 @@ class Exporter extends React.Component {
                       </div>
                     </div>
                   </div>
+
+                  <h5>Accept Input</h5>
+                  <h6>Source file name.</h6>
+                  <div className="form-group row">
+                    <div className="col-12">
+                      <div className="input-group">
+                        <div className="input-group-addon">
+                          <FontAwesome
+                            name="file"
+                            size="lg"
+                          />
+                        </div>
+                        <input
+                            disabled
+                            id="input-filename"
+                            className="form-control"
+                            name="input-filename"
+                            type="text"
+                            />
+                        <div className="input-group-addon">.json | .txt</div>
+                      </div>
+                    </div>
+                  </div>
+                  <h6>Load from text and apply to continue.</h6>
+                  <div className="form-group row">
+                    <div className="col-6">
+                      <div className="input-group">
+                        <label 
+                            className="btn btn-primary btn-block"
+                            htmlFor="upload-button"
+                        >
+                        <input
+                            id="upload-button"
+                            name="upload"
+                            accept="text/plain"
+                            type="file"
+                            style={ustyle}
+                            onChange={this.onUpload} 
+                        />
+                        Load
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="input-group">
+                        <button
+                            className="btn btn-primary btn-block"
+                            id="load-button"
+                            name="load"
+                            type="button"
+                            onClick={this.onLoad} >
+                            Apply
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                 </form>
                 <div style={hiddenitem} >
                     <canvas 
@@ -289,6 +309,7 @@ class Exporter extends React.Component {
                     </canvas>
                     <p id="loader"></p>
                 </div>
+                    <p id="filename"></p>
               </div>
             </div>
         );

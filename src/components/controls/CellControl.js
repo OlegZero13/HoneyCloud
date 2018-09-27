@@ -29,7 +29,7 @@ class CellControl extends React.Component {
                             className="form-control"
                             name="nx"
                             type="text"
-                            value={this.state.control.nx}
+                            value={this.state.control.globals.nx}
                          />
                       </div>
                     </div>
@@ -41,7 +41,7 @@ class CellControl extends React.Component {
                             className="form-control"
                             name="ny"
                             type="text"
-                            value={this.state.control.ny}
+                            value={this.state.control.globals.ny}
                         />
                       </div>
                     </div>
@@ -57,7 +57,7 @@ class CellControl extends React.Component {
                             className="form-control"
                             name="cell-background"
                             type="color"
-                            value={this.state.control.background}
+                            value={this.state.control.globals.CellBackground}
                             onChange={this.handleCellChange} />
                       </div>
                     </div>

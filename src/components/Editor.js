@@ -480,6 +480,7 @@ class Editor extends React.Component {
     render(){
         const controlWidth = {maxWidth: 600};
         const imageStyle = {float: 'right'};
+        const hiddenStyle = {display: 'none'};
         return (
             <div className="hex-editor">
               <div className="container-fluid">
@@ -554,11 +555,14 @@ class Editor extends React.Component {
                         onCellSelect={this.onCellSelect}
                         onWallSelect={this.onWallSelect}
                         />
-                    <hr />
-                    <CanvasAncilla
-                        id="svg-ancilla"
-                        canvas={this.state.canvas}
-                        />
+
+                    <div style={hiddenStyle}>
+                      <hr />
+                      <CanvasAncilla
+                          id="svg-ancilla"
+                          canvas={this.state.canvas}
+                          />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -10,22 +10,6 @@ import Wall from './Wall';
 class CanvasAncilla extends React.Component {
     constructor(props){
         super(props);
-
-
-/*
-        this.ancilla = {
-            globals: {
-                Nx:     limits[1] - limits[0],
-                Ny:     limits[3] - limits[2],
-                grid:   this.props.canvas.globals.grid,
-                showGrid:   this.props.canvas.globals.showGrid,
-            },
-            cells:  [],
-            hexs:   [],
-            conns:  [],
-            walls:  [],
-        };
-*/
         const canvasSize = this.defineCanvasAncillaSize();
         this.width  = canvasSize[0];
         this.height = canvasSize[1];

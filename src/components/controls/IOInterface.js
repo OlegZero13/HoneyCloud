@@ -31,7 +31,7 @@ class IOInterface extends React.Component {
     }
 
     onExport(e) {
-        let svg = document.getElementById("canvas");
+        let svg = document.getElementById("canvas-ancilla");
         let can = document.getElementById("auxiliary-canvas");
 
         let ctx = can.getContext('2d');
@@ -303,13 +303,13 @@ class IOInterface extends React.Component {
                 </form>
                 <div style={hiddenitem} >
                     <p id="loader"></p>
-                </div>
                     <canvas 
                         width={width}
                         height={height} 
                         id="auxiliary-canvas">
                     </canvas>
                     <p id="filename"></p>
+                </div>
               </div>
             </div>
         );

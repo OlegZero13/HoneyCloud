@@ -97,22 +97,20 @@ class CanvasAncilla extends React.Component {
                 ymin = (y <= ymin) ? y : ymin;
             }
         }
-        console.log("xmin: " + xmin
-                +  " xmax: " + xmax
-                +  " ymin: " + ymin
-                +  " ymax: " + ymax);
         return [xmin, xmax, ymin, ymax];
     }
     
     defineCanvasAncillaSize(){
         const limits = this.defineAncillaLimits();
         const arm       = this.defineUnitSize();
-        const Nx        = limits[1] + 1;
-        const Ny        = limits[3] + 1;
+        const Nx        = limits[1] - limits[0] + 1;
+        const Ny        = limits[3] - limits[2] + 1;
+        const Dx        = Nx - 1;
+        const Dy        = Ny - 1;
         const pitchX    = 3*arm;
         const pitchY    = arm*Math.cos(Math.PI/6);
         const width     = Nx*pitchX 
-                        - 1.5*arm*(Ny === 1)
+                        - 1.5*arm*(Dx === 0 && Dy === 0 && (Ny + 0) % 2)
                         + (Ny % 2)*0.5*arm
                         + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
                         + 0.20*arm*Math.cos(Math.PI/6);
@@ -249,9 +247,13 @@ class CanvasAncilla extends React.Component {
         const arm = this.defineUnitSize();
         const Nx = limits[0];
         const Ny = limits[2];
+        const Dy = limits[3] - limits[2];
+        const Dx = limits[1] - limits[0];
         const pitchX    = 3*arm;
         const pitchY    = arm*Math.cos(Math.PI/6);
-        const dx = 0.10*arm*Math.cos(Math.PI/6) - Nx*pitchX - 1.5*arm*(Ny % 2);
+        const dx = 0.10*arm*Math.cos(Math.PI/6)
+                 - Nx*pitchX
+                 - 1.5*arm*(Dx === 0 && ((Dy + 1) % 2) && (Ny + 0) % 2);
         const dy = 0.10*arm - Ny*pitchY;
         return "translate(" + dx.toString() + ", " + dy.toString() + ")";
     }

@@ -280,7 +280,7 @@ class CanvasAncilla extends React.Component {
                     xmlns="http://www.w3.org/2000/svg"
                     width={width} 
                     height={height} 
-                    id="canvas">
+                    id="canvas-ancilla">
                 <rect 
                     width={width} 
                     height={height} 

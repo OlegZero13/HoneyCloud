@@ -245,9 +245,14 @@ class CanvasAncilla extends React.Component {
     }
 
     repositionCanvasAncilla() {
+        const limits = this.defineAncillaLimits();
         const arm = this.defineUnitSize();
-        const dx = 0.10*arm*Math.cos(Math.PI/6);
-        const dy = 0.10*arm;
+        const Nx = limits[0];
+        const Ny = limits[2];
+        const pitchX    = 3*arm;
+        const pitchY    = arm*Math.cos(Math.PI/6);
+        const dx = 0.10*arm*Math.cos(Math.PI/6) - Nx*pitchX - 1.5*arm*(Ny % 2);
+        const dy = 0.10*arm - Ny*pitchY;
         return "translate(" + dx.toString() + ", " + dy.toString() + ")";
     }
 

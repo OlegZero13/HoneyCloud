@@ -302,13 +302,13 @@ class IOInterface extends React.Component {
 
                 </form>
                 <div style={hiddenitem} >
+                    <p id="loader"></p>
+                </div>
                     <canvas 
                         width={width}
                         height={height} 
                         id="auxiliary-canvas">
                     </canvas>
-                    <p id="loader"></p>
-                </div>
                     <p id="filename"></p>
               </div>
             </div>

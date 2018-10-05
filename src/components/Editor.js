@@ -9,6 +9,7 @@ import WallControl from './controls/WallControl';
 import IOInterface from './controls/IOInterface';
 import FooterAbout from './controls/FooterAbout';
 import Canvas from './Canvas';
+import CanvasAncilla from './CanvasAncilla';
 
 import assertAPI from './assertions.js';
 
@@ -21,11 +22,11 @@ class Editor extends React.Component {
         this.state = {
             canvas: {
                 globals: {
-                    Nx:         "24",
-                    Ny:         "32",
+                    Nx:         "2", // REMOVE 24
+                    Ny:         "6", // REMOVE 32
                     grid:       "S",
                     showGrid:   true,
-                    background: "#FFFFFF",
+                    background: "#F00F0F",
                     gridColor:  "#EEEEEE",
                 },
                 cells:      [],
@@ -548,9 +549,15 @@ class Editor extends React.Component {
                   </div>
                   <div className="col-sm-9">
                     <Canvas
+                        id="svg-original"
                         canvas={this.state.canvas}
                         onCellSelect={this.onCellSelect}
                         onWallSelect={this.onWallSelect}
+                        />
+                    <hr />
+                    <CanvasAncilla
+                        id="svg-ancilla"
+                        canvas={this.state.canvas}
                         />
                   </div>
                 </div>

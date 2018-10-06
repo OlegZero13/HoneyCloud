@@ -22,11 +22,11 @@ class Editor extends React.Component {
         this.state = {
             canvas: {
                 globals: {
-                    Nx:         "2", // REMOVE 24
-                    Ny:         "6", // REMOVE 32
+                    Nx:         "2",
+                    Ny:         "4",
                     grid:       "S",
                     showGrid:   true,
-                    background: "#F00F0F",
+                    background: "#FFFFFF",
                     gridColor:  "#EEEEEE",
                 },
                 cells:      [],
@@ -550,19 +550,11 @@ class Editor extends React.Component {
                   </div>
                   <div className="col-sm-9">
                     <Canvas
-                        id="svg-original"
+                        id="canvas"
                         canvas={this.state.canvas}
                         onCellSelect={this.onCellSelect}
                         onWallSelect={this.onWallSelect}
                         />
-
-                    <div style={hiddenStyle}>
-                      <hr />
-                      <CanvasAncilla
-                          id="svg-ancilla"
-                          canvas={this.state.canvas}
-                          />
-                    </div>
                   </div>
                 </div>
               </div>

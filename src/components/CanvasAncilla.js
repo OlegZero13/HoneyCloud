@@ -246,10 +246,18 @@ class CanvasAncilla extends React.Component {
 
     render() {
         this.defineAncillaLimits();
+        
         const style = {
             fill:   this.props.canvas.globals.background,
         };
         const canvasSize = this.defineCanvasAncillaSize();
+
+        const svg = document.getElementById("canvas-ancilla-background");
+        try {
+            console.log(svg.width.baseVal.value);
+            console.log(svg.height.baseVal.value);
+        } catch(e) {
+        }
         const width  = canvasSize[0];
         const height = canvasSize[1];
         const emptycells = this.defineGrid();
@@ -264,11 +272,12 @@ class CanvasAncilla extends React.Component {
                     xmlns="http://www.w3.org/2000/svg"
                     width={width} 
                     height={height} 
-                    id="canvas-ancilla">
+                    id={this.props.id}>
                 <rect 
                     width={width} 
                     height={height} 
-                    style={style} />
+                    style={style}
+                    id="canvas-ancilla-background" />
                 <g transform={canvasTranslate} >
                     {emptycells}
                     {cells}

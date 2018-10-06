@@ -8,12 +8,6 @@ import Wall from './Wall';
 
 
 class CanvasAncilla extends React.Component {
-    constructor(props){
-        super(props);
-        const canvasSize = this.defineCanvasAncillaSize();
-        this.width  = canvasSize[0];
-        this.height = canvasSize[1];
-    }
 
     defineUnitSize(){
         let arm;
@@ -29,78 +23,6 @@ class CanvasAncilla extends React.Component {
             arm = 40;
         }
         return arm;
-    }
-
-    defineAncillaLimits(){
-        const cells = this.props.canvas.cells;
-        const hexs  = this.props.canvas.hexs;
-        const conns = this.props.canvas.conns;
-        const walls = this.props.canvas.walls;
-        let xmax = 0;
-        let ymax = 0;
-        let xmin = parseInt(this.props.canvas.globals.Nx, 10);
-        let ymin = parseInt(this.props.canvas.globals.Ny, 10);
-
-        if (cells.length > 0) {
-            for (let c in cells) {
-                const x = parseInt(cells[c].pos[0], 10);
-                const y = parseInt(cells[c].pos[1], 10);
-                xmax = (x >= xmax) ? x : xmax;
-                xmin = (x <= xmin) ? x : xmin;
-                ymax = (y >= ymax) ? y : ymax;
-                ymin = (y <= ymin) ? y : ymin;
-            }
-        }
-        if (hexs.length > 0) {
-            for (let h in hexs) {
-                const x = parseInt(hexs[h].pos[0], 10);
-                const y = parseInt(hexs[h].pos[1], 10);
-                xmax = (x >= xmax) ? x : xmax;
-                xmin = (x <= xmin) ? x : xmin;
-                ymax = (y >= ymax) ? y : ymax;
-                ymin = (y <= ymin) ? y : ymin;
-            }
-        }
-        if (conns.length > 0) {
-            for (let c in conns) {
-                const x = parseInt(conns[c].pos[0], 10);
-                const y = parseInt(conns[c].pos[1], 10);
-                xmax = (x >= xmax) ? x : xmax;
-                xmin = (x <= xmin) ? x : xmin;
-                ymax = (y >= ymax) ? y : ymax;
-                ymin = (y <= ymin) ? y : ymin;
-            }
-        }
-        if (walls.length > 0) {
-            for (let w in walls) {
-                const x = parseInt(walls[w].pos[0], 10);
-                const y = parseInt(walls[w].pos[1], 10);
-                xmax = (x >= xmax) ? x : xmax;
-                xmin = (x <= xmin) ? x : xmin;
-                ymax = (y >= ymax) ? y : ymax;
-                ymin = (y <= ymin) ? y : ymin;
-            }
-        }
-        return [xmin, xmax, ymin, ymax];
-    }
-    
-    defineCanvasAncillaSize(){
-        const limits = this.defineAncillaLimits();
-        const arm       = this.defineUnitSize();
-        const Nx        = limits[1] - limits[0] + 1;
-        const Ny        = limits[3] - limits[2] + 1;
-        const Dx        = Nx - 1;
-        const Dy        = Ny - 1;
-        const pitchX    = 3*arm;
-        const pitchY    = arm*Math.cos(Math.PI/6);
-        const width     = Nx*pitchX 
-                        - 1.5*arm*(Dx === 0 && Dy === 0 && (Ny + 0) % 2)
-                        + (Ny % 2)*0.5*arm
-                        + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
-                        + 0.20*arm*Math.cos(Math.PI/6);
-        const height    = Ny*pitchY + arm
-                        + 0.05*arm;
-        return [width, height];
     }
 
     defineGrid(){
@@ -227,7 +149,7 @@ class CanvasAncilla extends React.Component {
     }
 
     repositionCanvasAncilla() {
-        const limits = this.defineAncillaLimits();
+        const limits = this.props.limits;
         const arm = this.defineUnitSize();
         const Nx = limits[0];
         const Ny = limits[2];
@@ -242,24 +164,10 @@ class CanvasAncilla extends React.Component {
         return "translate(" + dx.toString() + ", " + dy.toString() + ")";
     }
 
-
-
     render() {
-        this.defineAncillaLimits();
-        
         const style = {
             fill:   this.props.canvas.globals.background,
         };
-        const canvasSize = this.defineCanvasAncillaSize();
-
-        const svg = document.getElementById("canvas-ancilla-background");
-        try {
-            console.log(svg.width.baseVal.value);
-            console.log(svg.height.baseVal.value);
-        } catch(e) {
-        }
-        const width  = canvasSize[0];
-        const height = canvasSize[1];
         const emptycells = this.defineGrid();
         const cells      = this.drawCells();
         const hexs       = this.drawHexs();
@@ -270,12 +178,12 @@ class CanvasAncilla extends React.Component {
             <div className="canvas">
                 <svg 
                     xmlns="http://www.w3.org/2000/svg"
-                    width={width} 
-                    height={height} 
+                    width={this.props.width} 
+                    height={this.props.height} 
                     id={this.props.id}>
                 <rect 
-                    width={width} 
-                    height={height} 
+                    width={this.props.width} 
+                    height={this.props.height} 
                     style={style}
                     id="canvas-ancilla-background" />
                 <g transform={canvasTranslate} >

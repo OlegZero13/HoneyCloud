@@ -75,19 +75,24 @@ class IOInterface extends React.Component {
                 ymin = (y <= ymin) ? y : ymin;
             }
         }
-        const arm   = this.defineUnitSize();
-        const Nx    = xmax - xmin + 1;
-        const Ny    = ymax - ymin + 1;
-        const Dx    = Nx - 1;
-        const Dy    = Ny - 1;
-        const pitchX = 3.0*arm;
-        const pitchY = arm*Math.cos(Math.PI/6);
-        const width = Nx*pitchX
-                    - 1.5*arm*(Dx === 0 && Dy === 0 && (Ny + 0) % 2)
-                    + (Ny % 2)*0.5*arm
-                    + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
-                    + 0.2*arm*Math.cos(Math.PI/6);
-        const height = Ny*pitchY + arm + 0.05*arm;
+        return [xmin, xmax, ymin, ymax];
+    }
+
+    defineAncillaSize(){
+        const limits    = this.defineAncillaLimits();
+        const arm       = this.defineUnitSize();
+        const Nx        = limits[1] - limits[0] + 1;
+        const Ny        = limits[3] - limits[2] + 1;
+        const Dx        = Nx - 1;
+        const Dy        = Ny - 1;
+        const pitchX    = 3.0*arm;
+        const pitchY    = arm*Math.cos(Math.PI/6);
+        const width     = Nx*pitchX
+                        - 1.5*arm*(Dx === 0 && Dy === 0 && (Ny + 0) % 2)
+                        + (Ny % 2)*0.5*arm
+                        + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
+                        + 0.2*arm*Math.cos(Math.PI/6);
+        const height    = Ny*pitchY + arm + 0.05*arm;
         return [width, height];
     }
 
@@ -199,12 +204,11 @@ class IOInterface extends React.Component {
     }
 
     render() {
-        const hiddenitem = {display: "none"};
-        const size = this.defineAncillaLimits();
-        console.log("asdasd");
-        console.log(size);
-        const height = size[1];
-        const width  = size[0];
+        const hiddenitem    = {display: "none"};
+        const limits        = this.defineAncillaLimits();
+        const size          = this.defineAncillaSize();
+        const height        = size[1];
+        const width         = size[0];
         const tstyle = {
             minHeight: 95,
             width: "100%",
@@ -375,9 +379,11 @@ class IOInterface extends React.Component {
                 <div style={hiddenitem} >
                     <p id="loader"></p>
                     <p id="filename"></p>
-                </div>
                     <CanvasAncilla
                         id="canvas-ancilla"
+                        height={height}
+                        width={width}
+                        limits={limits}
                         canvas={this.state.canvas}
                     />
                     <canvas 
@@ -385,6 +391,7 @@ class IOInterface extends React.Component {
                         height={height} 
                         id="auxiliary-canvas">
                     </canvas>
+                </div>
               </div>
             </div>
         );

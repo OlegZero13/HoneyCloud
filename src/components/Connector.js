@@ -3,10 +3,14 @@ import React from 'react';
 
 class Connector extends React.Component {
     defineLinePoints(){
-        const x1 = this.props.conn.arm;
-        const x2 = this.props.conn.arm;
-        const y1 = this.props.conn.arm*Math.cos(Math.PI/6);
-        const y2 = -y1;
+        let x1, x2, y1, y2;
+        x1 = this.props.conn.arm;
+        x2 = this.props.conn.arm;
+        y1 = this.props.conn.arm*Math.cos(Math.PI/6);
+        y2 = -y1;
+        if (this.props.conn.arrow) {
+            y2 = 0.05*y2;
+        }
         return [x1, y1, x2, y2];
     }
 
@@ -34,9 +38,9 @@ class Connector extends React.Component {
         const y2 = points[3];
         const arm = this.props.conn.arm;
         const stk = Math.floor(0.10*arm);
-        const p0  = [x1 - stk, 0.03*y2 + 0.20*arm];
-        const p1  = [x1 + stk, 0.03*y2 + 0.20*arm];
-        const p2  = [x1, 0.03*y2 + 0.05*arm];
+        const p0  = [x1 - stk, 0.1*arm];
+        const p1  = [x1 + stk, 0.1*arm];
+        const p2  = [x1, 0.03*y2 - 0.20*arm];
         const pp  = [p0, p1, p2];
         return pp.join(',');
     }

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CanvasAncilla from '../CanvasAncilla.js';
+
 
 var FontAwesome = require('react-fontawesome');
 
@@ -11,8 +13,9 @@ class IOInterface extends React.Component {
             canvas:  this.props.canvas,
         };
 
-        this.height = "1";
-        this.width  = "1";
+        const size = this.defineAncillaLimits();
+        this.height = size[1];
+        this.width  = size[0];
         this.onExport         = this.onExport.bind(this);
         this.onUpload         = this.onUpload.bind(this);
         this.onFilenameChange = this.onFilenameChange.bind(this);
@@ -23,6 +26,76 @@ class IOInterface extends React.Component {
         this.onSave = this.props.onSave;
     }
 
+    defineAncillaLimits(){
+        const cells = this.props.canvas.cells;
+        const hexs  = this.props.canvas.hexs;
+        const conns = this.props.canvas.conns;
+        const walls = this.props.canvas.walls;
+        let xmax = 0; let ymax = 0;
+        let xmin = parseInt(this.props.canvas.globals.Nx, 10);
+        let ymin = parseInt(this.props.canvas.globals.Ny, 10);
+
+        if (cells.length > 0) {
+            for (let c in cells) {
+                const x = parseInt(cells[c].pos[0], 10);
+                const y = parseInt(cells[c].pos[1], 10);
+                xmax = (x >= xmax) ? x : xmax;
+                xmin = (x <= xmin) ? x : xmin;
+                ymax = (y >= ymax) ? y : ymax;
+                ymin = (y <= ymin) ? y : ymin;
+            }
+        }
+        if (hexs.length > 0) {
+            for (let h in hexs) {
+                const x = parseInt(hexs[h].pos[0], 10);
+                const y = parseInt(hexs[h].pos[1], 10);
+                xmax = (x >= xmax) ? x : xmax;
+                xmin = (x <= xmin) ? x : xmin;
+                ymax = (y >= ymax) ? y : ymax;
+                ymin = (y <= ymin) ? y : ymin;
+            }
+        }
+        if (conns.length > 0) {
+            for (let c in conns) {
+                const x = parseInt(conns[c].pos[0], 10);
+                const y = parseInt(conns[c].pos[1], 10);
+                xmax = (x >= xmax) ? x : xmax;
+                xmin = (x <= xmin) ? x : xmin;
+                ymax = (y >= ymax) ? y : ymax;
+                ymin = (y <= ymin) ? y : ymin;
+            }
+        }
+        if (walls.length > 0) {
+            for (let w in walls) {
+                const x = parseInt(walls[w].pos[0], 10);
+                const y = parseInt(walls[w].pos[1], 10);
+                xmax = (x >= xmax) ? x : xmax;
+                xmin = (x <= xmin) ? x : xmin;
+                ymax = (y >= ymax) ? y : ymax;
+                ymin = (y <= ymin) ? y : ymin;
+            }
+        }
+        return [xmin, xmax, ymin, ymax];
+    }
+
+    defineAncillaSize(){
+        const limits    = this.defineAncillaLimits();
+        const arm       = this.defineUnitSize();
+        const Nx        = limits[1] - limits[0] + 1;
+        const Ny        = limits[3] - limits[2] + 1;
+        const Dx        = Nx - 1;
+        const Dy        = Ny - 1;
+        const pitchX    = 3.0*arm;
+        const pitchY    = arm*Math.cos(Math.PI/6);
+        const width     = Nx*pitchX
+                        - 1.5*arm*(Dx === 0 && Dy === 0 && (Ny + 0) % 2)
+                        + (Ny % 2)*0.5*arm
+                        + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
+                        + 0.2*arm*Math.cos(Math.PI/6);
+        const height    = Ny*pitchY + arm + 0.05*arm;
+        return [width, height];
+    }
+
     onFilenameChange(e) {
         let filename = e.target.value;
         let control = this.state.control;
@@ -31,7 +104,7 @@ class IOInterface extends React.Component {
     }
 
     onExport(e) {
-        let svg = document.getElementById("canvas");
+        let svg = document.getElementById("canvas-ancilla");
         let can = document.getElementById("auxiliary-canvas");
 
         let ctx = can.getContext('2d');
@@ -126,14 +199,16 @@ class IOInterface extends React.Component {
                         + 0.20*arm*Math.cos(Math.PI/6);
         const height    = this.props.canvas.globals.Ny*pitchY + arm
                         + 0.05*arm;
+
         return [width, height];
     }
 
     render() {
-        const hiddenitem = {display: "none"};
-        const size = this.defineCanvasSize();
-        const height = size[1];
-        const width  = size[0];
+        const hiddenitem    = {display: "none"};
+        const limits        = this.defineAncillaLimits();
+        const size          = this.defineAncillaSize();
+        const height        = size[1];
+        const width         = size[0];
         const tstyle = {
             minHeight: 95,
             width: "100%",
@@ -302,14 +377,21 @@ class IOInterface extends React.Component {
 
                 </form>
                 <div style={hiddenitem} >
+                    <p id="loader"></p>
+                    <p id="filename"></p>
+                    <CanvasAncilla
+                        id="canvas-ancilla"
+                        height={height}
+                        width={width}
+                        limits={limits}
+                        canvas={this.state.canvas}
+                    />
                     <canvas 
                         width={width}
                         height={height} 
                         id="auxiliary-canvas">
                     </canvas>
-                    <p id="loader"></p>
                 </div>
-                    <p id="filename"></p>
               </div>
             </div>
         );

@@ -7,14 +7,7 @@ import Connector from './Connector';
 import Wall from './Wall';
 
 
-class Canvas extends React.Component {
-    constructor(props){
-        super(props);
-
-        const canvasSize = this.defineCanvasSize();
-        this.width  = canvasSize[0];
-        this.height = canvasSize[1];
-    }
+class CanvasAncilla extends React.Component {
 
     defineUnitSize(){
         let arm;
@@ -30,22 +23,6 @@ class Canvas extends React.Component {
             arm = 40;
         }
         return arm;
-    }
-    
-    defineCanvasSize(){
-        const arm       = this.defineUnitSize();
-        const Nx        = parseInt(this.props.canvas.globals.Nx, 10);
-        const Ny        = parseInt(this.props.canvas.globals.Ny, 10);
-        const pitchX    = 3*arm;
-        const pitchY    = arm*Math.cos(Math.PI/6);
-        const width     = Nx*pitchX 
-                        - 1.5*arm*(Ny === 1)
-                        + (Ny % 2)*0.5*arm
-                        + ((1 + Ny) % 2)*Math.sin(Math.PI/6)*arm
-                        + 0.20*arm*Math.cos(Math.PI/6);
-        const height    = this.props.canvas.globals.Ny*pitchY + arm
-                        + 0.05*arm;
-        return [width, height];
     }
 
     defineGrid(){
@@ -171,39 +148,44 @@ class Canvas extends React.Component {
         return walls;
     }
 
-    repositionCanvas() {
+    repositionCanvasAncilla() {
+        const limits = this.props.limits;
         const arm = this.defineUnitSize();
-        const dx = 0.10*arm*Math.cos(Math.PI/6);
-        const dy = 0.10*arm;
+        const Nx = limits[0];
+        const Ny = limits[2];
+        const Dy = limits[3] - limits[2];
+        const Dx = limits[1] - limits[0];
+        const pitchX    = 3*arm;
+        const pitchY    = arm*Math.cos(Math.PI/6);
+        const dx = 0.10*arm*Math.cos(Math.PI/6)
+                 - Nx*pitchX
+                 - 1.5*arm*(Dx === 0 && ((Dy + 1) % 2) && (Ny + 0) % 2);
+        const dy = 0.10*arm - Ny*pitchY;
         return "translate(" + dx.toString() + ", " + dy.toString() + ")";
     }
-
-
 
     render() {
         const style = {
             fill:   this.props.canvas.globals.background,
         };
-        const canvasSize = this.defineCanvasSize();
-        const width  = canvasSize[0];
-        const height = canvasSize[1];
         const emptycells = this.defineGrid();
         const cells      = this.drawCells();
         const hexs       = this.drawHexs();
         const connectors = this.drawConnectors();
         const walls      = this.drawWalls();
-        const canvasTranslate = this.repositionCanvas();
+        const canvasTranslate = this.repositionCanvasAncilla();
         return (
             <div className="canvas">
                 <svg 
                     xmlns="http://www.w3.org/2000/svg"
-                    width={width} 
-                    height={height} 
+                    width={this.props.width} 
+                    height={this.props.height} 
                     id={this.props.id}>
                 <rect 
-                    width={width} 
-                    height={height} 
-                    style={style} />
+                    width={this.props.width} 
+                    height={this.props.height} 
+                    style={style}
+                    id="canvas-ancilla-background" />
                 <g transform={canvasTranslate} >
                     {emptycells}
                     {cells}
@@ -217,5 +199,5 @@ class Canvas extends React.Component {
     }
 }
 
-export default Canvas;
+export default CanvasAncilla;
 

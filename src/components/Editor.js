@@ -548,6 +548,7 @@ class Editor extends React.Component {
                   </div>
                   <div className="col-sm-9">
                     <Canvas
+                        id="canvas"
                         canvas={this.state.canvas}
                         onCellSelect={this.onCellSelect}
                         onWallSelect={this.onWallSelect}
